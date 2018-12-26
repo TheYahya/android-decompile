@@ -24,9 +24,15 @@ do
 		mv ./$filename ./$DIR_RESULT
 		echo "$filename unziping..."
 		unzip ./$DIR_TEMP/$filename.zip  -d ./$DIR_TEMP/$filename/
-		echo "$filename decompiling jar"
-		$DEX2JAR ./$DIR_TEMP/$filename/classes.dex
-		mv ./classes-dex2jar.jar ./$DIR_RESULT/$filename
+
+    for dexClasses in ./${DIR_TEMP}/${filename}/classes*.dex
+    do
+        echo "$filename decompiling jar"
+        ${DEX2JAR} ${dexClasses}
+        #classes* stands for classes15-error.zip and classes15-dex2jar.jar
+        mv ./classes* ./${DIR_RESULT}/${filename}
+    done
+
     fi
 done
 rm -r ./$DIR_TEMP/
